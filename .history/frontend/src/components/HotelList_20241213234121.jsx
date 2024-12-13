@@ -26,7 +26,7 @@ const HotelList = () => {
           <h4>{hotel.hotel_rating}</h4>
         </div>
         <p>{hotel.hotel_address}</p>
-        <button className='button-28' onClick={() => navigate(`/rooms/${hotel.hotelID}`)}>
+        <button className='button-28' onClick={() => navigate(`/rooms/${hotel.hotelID}`})}>
           View Rooms
         </button>
         </div>  
@@ -38,3 +38,5 @@ const HotelList = () => {
 };
 
 export default HotelList;
+
+`/rooms/${hotel.hotelID}`

@@ -16,9 +16,11 @@ const App = () => {
       <nav>
         <div className="nav__logo">Easy Booking</div>
         <ul className="nav__links">
-          <li className="link"><a href="/">Home</a></li>
-          <li className="link"><a href="/hotels">Hotel</a></li>
-          <li className="link"><a href="/cart">Cart</a></li>
+          <li className="link"><a href="">Home</a></li>
+          <li className="link"><a href="#">Book</a></li>
+          <li className="link"><a href="#">Blog</a></li>
+          <li className="link"><a href="#">Contact Us</a></li>
+          <li className="link"><a href="#">Cart</a></li>
         </ul>
       </nav>
 
