@@ -69,38 +69,12 @@ const CartPage = () => {
                 <p>Your cart is empty.</p>
             ) : (
                 <div>
-                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    <ul>
                         {cartItems.map((item) => (
-                            <li
-                                key={item.cartID}
-                                style={{
-                                    border: '1px solid #ddd',
-                                    borderRadius: '8px',
-                                    padding: '20px',
-                                    marginBottom: '10px',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <div>
-                                    <h2>Room {item.roomID}</h2>
-                                    <p>Type: {item.room_type}</p>
-                                    <p>Price: ${item.price}</p>
-                                </div>
-                                <button
-                                    onClick={() => handleRemoveFromCart(item.cartID)}
-                                    style={{
-                                        padding: '10px 20px',
-                                        backgroundColor: '#dc3545',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer',
-                                    }}
-                                >
-                                    Remove
-                                </button>
+                            <li key={item.roomID}>
+                                <h2>Room {item.roomID}</h2>
+                                <p>Type: {item.room_type}</p>
+                                <p>Price: ${item.price}</p>
                             </li>
                         ))}
                     </ul>

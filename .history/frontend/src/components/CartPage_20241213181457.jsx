@@ -24,21 +24,6 @@ const CartPage = () => {
     }, [customerID]);
 
     // Xóa phòng khỏi giỏ hàng
-    const handleRemoveFromCart = async (cartID) => {
-        try {
-            const response = await fetch(`http://localhost:5000/api/carts/${cartID}`, {
-                method: 'DELETE',
-            });
-            if (!response.ok) {
-                throw new Error('Failed to remove item from cart');
-            }
-
-            alert('Room removed from cart successfully');
-            setCartItems(cartItems.filter(item => item.cartID !== cartID));
-        } catch (err) {
-            alert(err.message);
-        }
-    };
     const handleConfirmBooking = async () => {
         try {
             const response = await fetch(`http://localhost:5000/api/carts/confirm`, {
@@ -69,38 +54,12 @@ const CartPage = () => {
                 <p>Your cart is empty.</p>
             ) : (
                 <div>
-                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    <ul>
                         {cartItems.map((item) => (
-                            <li
-                                key={item.cartID}
-                                style={{
-                                    border: '1px solid #ddd',
-                                    borderRadius: '8px',
-                                    padding: '20px',
-                                    marginBottom: '10px',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <div>
-                                    <h2>Room {item.roomID}</h2>
-                                    <p>Type: {item.room_type}</p>
-                                    <p>Price: ${item.price}</p>
-                                </div>
-                                <button
-                                    onClick={() => handleRemoveFromCart(item.cartID)}
-                                    style={{
-                                        padding: '10px 20px',
-                                        backgroundColor: '#dc3545',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer',
-                                    }}
-                                >
-                                    Remove
-                                </button>
+                            <li key={item.roomID}>
+                                <h2>Room {item.roomID}</h2>
+                                <p>Type: {item.room_type}</p>
+                                <p>Price: ${item.price}</p>
                             </li>
                         ))}
                     </ul>

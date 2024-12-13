@@ -3,7 +3,7 @@ const sql = require('mssql');
 
 // API: Lấy giỏ hàng theo customerID
 exports.getCartByCustomerId = async (req, res) => {
-    const { customerID } = req.params;
+    const { customerID } = req.user;
     try {
         const pool = await db.poolPromise;
         const result = await pool.request()

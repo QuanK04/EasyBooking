@@ -14,7 +14,7 @@ const App = () => {
         <ul className="nav__links">
           <li className="link"><a href="/">Home</a></li>
           <li className="link"><a href="/hotels">Hotels</a></li>
-          <li className="link"><a href="/cart">Cart</a></li>
+          <li className="link"><a href="/carts">Cart</a></li>
         </ul>
       </nav>
 
