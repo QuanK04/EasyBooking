@@ -9,6 +9,8 @@ const bookingRoutes = require('./routes/booking.routes');
 const paymentRoutes = require('./routes/payment.routes');
 const promoRoutes = require('./routes/promo.routes');
 const reviewRoutes = require('./routes/review.routes');
+const cartRoutes = require('./routes/cart.routes');
+const authRoutes = require('./routes/auth.routes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -24,6 +26,8 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/promos', promoRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/carts', cartRoutes);
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('Welcome to EasyBooking API!');

@@ -15,13 +15,82 @@
   padding: 0;
   box-sizing: border-box;
 }
+.login__container {
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.login__container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form__group {
+  margin-bottom: 15px;
+}
+
+.form__group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form__group input,
+.form__group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
 
 .section__container {
   max-width: var(--max-width);
   margin: auto;
   padding: 5rem 1rem;
 }
+.btn {
+  display: inline-block;
+  background-color: #007BFF; /* Màu nền xanh lam */
+  color: white; /* Màu chữ */
+  padding: 15px 40px; /* Tăng kích thước nút */
+  font-size: 20px; /* Tăng kích thước chữ */
+  font-weight: bold; /* Chữ đậm */
+  text-transform: uppercase; /* Chữ in hoa */
+  border: none; /* Xóa viền */
+  border-radius: 50px; /* Làm bo góc */
+  cursor: pointer; /* Hiển thị con trỏ khi hover */
+  transition: all 0.3s ease-in-out; /* Hiệu ứng chuyển đổi */
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.2); /* Đổ bóng */
+}
 
+.btn:hover {
+  background-color: #0056b3; /* Màu nền khi hover */
+  transform: translateY(-5px); /* Di chuyển nút lên khi hover */
+  box-shadow: 0px 8px 20px rgba(0, 123, 255, 0.4); /* Tăng đổ bóng khi hover */
+}
+
+.btn:focus {
+  outline: none; /* Xóa đường viền khi focus */
+}
 .section__header {
   font-size: 2rem;
   font-weight: 600;
@@ -111,20 +180,10 @@ nav {
 }
 
 .booking__container {
-  position: absolute;
-  bottom: -5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 6rem);
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 1rem;
-  padding: 3rem 2rem;
-  border-radius: 2rem;
-  background-color: rgba(255, 255, 255, 0.7);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
 }
 
 .booking__container form {

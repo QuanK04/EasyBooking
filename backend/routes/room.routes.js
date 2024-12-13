@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
     getRooms,
-    getRoomById,
+    getRoomsByHotelId,
     createRoom,
     updateRoom,
     deleteRoom
@@ -10,7 +10,7 @@ const {
 
 // Routes
 router.get('/', getRooms);
-router.get('/:id', getRoomById);
+router.get('/:id', getRoomsByHotelId);
 router.post('/', createRoom);
 router.put('/:id', updateRoom);
 router.delete('/:id', deleteRoom);

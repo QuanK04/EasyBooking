@@ -13,21 +13,22 @@ exports.getRooms = async (req, res) => {
 };
 
 // Lấy thông tin phòng theo ID
-exports.getRoomById = async (req, res) => {
-    const { id } = req.params;
+exports.getRoomsByHotelId = async (req, res) => {
+    const { id } = req.params; // id là hotelID
     try {
         const pool = await db.poolPromise;
         const result = await pool.request()
-            .input('roomID', sql.Int, id)
-            .query('SELECT * FROM Room WHERE roomID = @roomID');
+            .input('hotelID', sql.Int, id)
+            .query('SELECT * FROM Room WHERE hotelID = @hotelID');
         if (result.recordset.length === 0) {
-            return res.status(404).json({ message: 'Room not found' });
+            return res.status(404).json({ message: 'No rooms found for this hotel.' });
         }
-        res.json(result.recordset[0]);
+        res.json(result.recordset); // Trả về toàn bộ danh sách phòng
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 // Tạo phòng mới
 exports.createRoom = async (req, res) => {
