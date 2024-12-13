@@ -1,34 +1,38 @@
-const jwt = require('jsonwebtoken');
 const db = require('../config/database');
 const sql = require('mssql');
+const jwt = require('jsonwebtoken');
 
-exports.login = async (req, res) => {
+// Đăng nhập khách hàng
+exports.customerLogin = async (req, res) => {
     const { username, password } = req.body;
-
     try {
         const pool = await db.poolPromise;
-
-        // Kiểm tra thông tin người dùng
         const result = await pool.request()
-            .input('username', sql.VarChar, username)
-            .input('password', sql.VarChar, password)
+            .input('username', sql.NVarChar, username)
+            .input('password', sql.NVarChar, password)
             .query('SELECT * FROM Customer WHERE username = @username AND password = @password');
 
         if (result.recordset.length === 0) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ error: 'Invalid username or password' });
         }
 
         const customer = result.recordset[0];
+        const token = jwt.sign({ id: customer.customerID }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Tạo JWT token
-        const token = jwt.sign(
-            { customerID: customer.customerID, username: customer.username },
-            process.env.JWT_SECRET || 'your_secret_key', // Đặt khóa bí mật trong `.env`
-            { expiresIn: '1h' }
-        );
-
-        res.json({ token, message: 'Login successful' });
+        res.status(200).json({ token, customer });
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+};
+
+// Đăng nhập admin
+exports.adminLogin = (req, res) => {
+    const { username, password } = req.body;
+
+    if (username === 'admin' && password === 'admin') {
+        const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.status(200).json({ token, role: 'admin' });
+    } else {
+        res.status(401).json({ error: 'Invalid admin credentials' });
     }
 };

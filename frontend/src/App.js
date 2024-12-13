@@ -1,14 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Sử dụng Router
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
-import HotelList from './components/HotelList'; // Import HotelList
+import HotelList from './components/HotelList';
 import RoomList from './components/RoomList';
-import Cart from './components/CartPage';
+import CartPage from './components/CartPage';
+import PrivateRoute from './components/PrivateRoute'; // Import PrivateRoute
 import './App.css';
 
 const App = () => {
   return (
     <Router>
+      {/* Thanh điều hướng */}
       <nav>
         <div className="nav__logo">Easy Booking</div>
         <ul className="nav__links">
@@ -17,8 +19,12 @@ const App = () => {
         </ul>
       </nav>
 
+      {/* Định nghĩa các route */}
       <Routes>
-        {/* Trang chủ */}
+        {/* Route đăng nhập */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Route cho trang chủ */}
         <Route
           path="/"
           element={
@@ -31,7 +37,7 @@ const App = () => {
                 <div className="booking__container">
                   <button 
                     className="btn" 
-                    onClick={() => (window.location.href = '/hotels')} // Điều hướng bằng URL
+                    onClick={() => (window.location.href = '/hotels')}
                     style={{
                       padding: '10px 20px',
                       fontSize: '16px',
@@ -44,17 +50,41 @@ const App = () => {
                 </div>
               </div>
             </header>
-            
           }
         />
 
-        {/* Trang danh sách khách sạn */}
-        <Route path="/hotels" element={<HotelList />} />
-        <Route path="/rooms/:hotelID" element={<RoomList />} /> {/* Route RoomList */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/cart" element={<Cart />} />
+        {/* Route cho danh sách khách sạn */}
+        <Route
+          path="/hotels"
+          element={
+            <PrivateRoute>
+              <HotelList />
+            </PrivateRoute>
+          }
+        />
 
+        {/* Route cho danh sách phòng */}
+        <Route
+          path="/rooms/:hotelID"
+          element={
+            <PrivateRoute>
+              <RoomList />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Route cho giỏ hàng */}
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <CartPage />
+            </PrivateRoute>
+          }
+        />
       </Routes>
+
+      {/* Footer */}
       <footer className="footer">
         <div className="section__container footer__container">
           <div className="footer__col">
