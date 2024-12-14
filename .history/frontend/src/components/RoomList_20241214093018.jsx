@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
-import './RoomList.css';
+import { useParams } from 'react-router-dom';
 
 const RoomList = () => {
     const { hotelID } = useParams(); // Lấy hotelID từ URL
-    const navigate = useNavigate();
     const [rooms, setRooms] = useState([]); // Lưu danh sách phòng
     const [error, setError] = useState(null); // Lưu lỗi nếu có
     const [loading, setLoading] = useState(true); // Trạng thái loading
@@ -84,12 +82,6 @@ const RoomList = () => {
                     ))}
                 </div>
             )}
-            <button
-            onClick={() => navigate('/hotels')}
-            className="back-btn"
-        >
-            Back to Hotel List
-        </button>
         </div>
     );
 };

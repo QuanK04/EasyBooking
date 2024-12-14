@@ -4,7 +4,7 @@ import Login from './components/Login';
 import HotelList from './components/HotelList';
 import RoomList from './components/RoomList';
 import CartPage from './components/CartPage';
-import ReviewApp from './components/ReviewApp';
+import Review_App from './components/Review_App';
 import Footer from './components/Footer';
 import BookingsPage from './components/BookingsPage';
 import './App.css';
@@ -57,7 +57,7 @@ const App = () => {
                 </div>
               </header>
               <div>
-                <ReviewApp/>
+                <Review_App/>
               </div>
               <div>
                 <Footer/>

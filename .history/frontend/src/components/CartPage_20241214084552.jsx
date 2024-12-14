@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './CartPage.css';
 
 const CartPage = () => {
     const [cartItems, setCartItems] = useState([]); // Danh sách phòng trong giỏ hàng
@@ -23,9 +22,7 @@ const CartPage = () => {
 
         fetchCartItems();
     }, [customerID]);
-    const calculateTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price, 0);
-    };
+
     // Xóa phòng khỏi giỏ hàng
     const handleRemoveFromCart = async (cartID) => {
         try {
@@ -43,10 +40,6 @@ const CartPage = () => {
         }
     };
     const handleConfirmBooking = async () => {
-        const confirmation = window.confirm(
-            `Total price: $${calculateTotalPrice()}. Are you sure you want to confirm the booking?`
-        );
-        if (!confirmation) return;
         try {
             const response = await fetch(`http://localhost:5000/api/carts/confirm`, {
                 method: 'POST',
@@ -70,40 +63,65 @@ const CartPage = () => {
     }
 
     return (
-        <div className="cart-container">
-            <h1 className="cart-header">Your Cart</h1>
-            {cartItems.length === 0 ? (
-                <p className="cart-empty">Your cart is empty.</p>
-            ) : (
-                <div>
-                    <ul className="cart-list">
-                        {cartItems.map((item) => (
-                            <li key={item.cartID} className="cart-item">
-                                <div className="cart-item-details">
-                                    <h2>Room {item.roomID}</h2>
-                                    <p>Type: {item.room_type}</p>
-                                    <p>Price: ${item.price}</p>
-                                </div>
-                                <button
-                                    onClick={() => handleRemoveFromCart(item.cartID)}
-                                    className="remove-btn"
-                                >
-                                    Remove
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="cart-total">
-                        <span>Total Price: <strong>${calculateTotalPrice()}</strong></span>
-                        <button onClick={handleConfirmBooking} className="confirm-btn">
-                            Confirm Booking
+        <div>
+    <h1>Your Cart</h1>
+    {cartItems.length === 0 ? (
+        <p>Your cart is empty.</p>
+    ) : (
+        <div>
+            <ul style={{ listStyleType: 'none', padding: 0 }}>
+                {cartItems.map((item) => (
+                    <li
+                        key={item.cartID}
+                        style={{
+                            border: '1px solid #ddd',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            marginBottom: '10px',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <div>
+                            <h2>Room {item.roomID}</h2>
+                            <p>Type: {item.room_type}</p>
+                            <p>Price: ${item.price}</p>
+                        </div>
+                        <button
+                            onClick={() => handleRemoveFromCart(item.cartID)}
+                            style={{
+                                padding: '10px 20px',
+                                backgroundColor: '#dc3545',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            Remove
                         </button>
-                    </div>
-                </div>
-            )}
+                    </li>
+                ))}
+            </ul>
+            <button
+                onClick={handleConfirmBooking}
+                style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#007bff',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    marginTop: '20px',
+                }}
+            >
+                Confirm Booking
+            </button>
         </div>
+    )}
+</div>
     );
-    
 };
 
 export default CartPage;

@@ -67,6 +67,7 @@ exports.removeFromCart = async (req, res) => {
 };
 exports.confirmBooking = async (req, res) => {
     const { customerID } = req.body; // Lấy customerID từ request body
+    console.log('CustomerID:', customerID);
     try {
         const pool = await db.poolPromise;
 
@@ -75,59 +76,15 @@ exports.confirmBooking = async (req, res) => {
             .input('customerID', sql.Int, customerID)
             .query('SELECT roomID FROM Cart WHERE customerID = @customerID');
         
-            //console.log('Cart Items:', cartItems.recordset);
-
         if (cartItems.recordset.length === 0) {
             return res.status(400).json({ message: 'Cart is empty' });
         }
-        
-        let totalPrice = 0;
-        for (const item of cartItems.recordset) {
-            const room = await pool.request()
-                .input('roomID', sql.Int, item.roomID)
-                .query('SELECT price FROM Room WHERE roomID = @roomID');
-            
-            //console.log(`Room ID: ${item.roomID}, Price: ${room.recordset[0]?.price}`);
-            totalPrice += room.recordset[0]?.price || 0;
-        }
-
-        //console.log('Total Price:', totalPrice);
-
-
-
-
-
-
-
-
-
-
-
-
-        // Tạo booking mới
-        const result = await pool.request()
-            .input('booking_price', sql.Float, totalPrice)
-            .input('booking_date', sql.DateTime, new Date()) // Thời gian hiện tại
-            .input('customerID', sql.Int, customerID)
-            .query(`
-                INSERT INTO Booking (booking_price, booking_date, customerID)
-                OUTPUT INSERTED.bookingID
-                VALUES (@booking_price, @booking_date, @customerID)
-            `);
-
-        const bookingID = result.recordset[0].bookingID;
-        //console.log('Booking ID:', bookingID);
-
 
         // Chuyển trạng thái của các phòng trong giỏ hàng thành 'Occupied'
         for (const item of cartItems.recordset) {
             await pool.request()
                 .input('roomID', sql.Int, item.roomID)
                 .query('UPDATE Room SET status = \'Occupied\' WHERE roomID = @roomID');
-            await pool.request()
-                .input('bookingID', sql.Int, bookingID)
-                .input('roomID', sql.Int, item.roomID)
-                .query('INSERT INTO BookingRoom (bookingID, roomID) VALUES (@bookingID, @roomID)');
         }
 
         // Xóa các phòng trong giỏ hàng sau khi đặt phòng thành công

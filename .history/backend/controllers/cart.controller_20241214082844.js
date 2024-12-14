@@ -66,6 +66,7 @@ exports.removeFromCart = async (req, res) => {
     }
 };
 exports.confirmBooking = async (req, res) => {
+    console.log('Request Body:', req.body);
     const { customerID } = req.body; // Lấy customerID từ request body
     try {
         const pool = await db.poolPromise;
@@ -75,59 +76,24 @@ exports.confirmBooking = async (req, res) => {
             .input('customerID', sql.Int, customerID)
             .query('SELECT roomID FROM Cart WHERE customerID = @customerID');
         
-            //console.log('Cart Items:', cartItems.recordset);
-
         if (cartItems.recordset.length === 0) {
             return res.status(400).json({ message: 'Cart is empty' });
         }
-        
-        let totalPrice = 0;
-        for (const item of cartItems.recordset) {
-            const room = await pool.request()
-                .input('roomID', sql.Int, item.roomID)
-                .query('SELECT price FROM Room WHERE roomID = @roomID');
-            
-            //console.log(`Room ID: ${item.roomID}, Price: ${room.recordset[0]?.price}`);
-            totalPrice += room.recordset[0]?.price || 0;
-        }
-
-        //console.log('Total Price:', totalPrice);
-
-
-
-
-
-
-
-
-
-
-
-
-        // Tạo booking mới
+        const bookingPrice = cartItems.recordset.reduce((total, item) => total + item.price, 0);
+        const bookingDate = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại (YYYY-MM-DD)
         const result = await pool.request()
-            .input('booking_price', sql.Float, totalPrice)
-            .input('booking_date', sql.DateTime, new Date()) // Thời gian hiện tại
+            .input('booking_price', sql.Float, bookingPrice)
+            .input('booking_date', sql.Date, bookingDate)
             .input('customerID', sql.Int, customerID)
-            .query(`
-                INSERT INTO Booking (booking_price, booking_date, customerID)
-                OUTPUT INSERTED.bookingID
-                VALUES (@booking_price, @booking_date, @customerID)
-            `);
+            .query('INSERT INTO Booking (booking_price, booking_date, customerID) VALUES (@booking_price, @booking_date, @customerID)');
 
-        const bookingID = result.recordset[0].bookingID;
-        //console.log('Booking ID:', bookingID);
-
+        const bookingID = result.recordset?.insertId || result.recordset[0]?.bookingID;
 
         // Chuyển trạng thái của các phòng trong giỏ hàng thành 'Occupied'
         for (const item of cartItems.recordset) {
             await pool.request()
                 .input('roomID', sql.Int, item.roomID)
                 .query('UPDATE Room SET status = \'Occupied\' WHERE roomID = @roomID');
-            await pool.request()
-                .input('bookingID', sql.Int, bookingID)
-                .input('roomID', sql.Int, item.roomID)
-                .query('INSERT INTO BookingRoom (bookingID, roomID) VALUES (@bookingID, @roomID)');
         }
 
         // Xóa các phòng trong giỏ hàng sau khi đặt phòng thành công
@@ -135,7 +101,7 @@ exports.confirmBooking = async (req, res) => {
             .input('customerID', sql.Int, customerID)
             .query('DELETE FROM Cart WHERE customerID = @customerID');
 
-        res.status(200).json({ message: 'Booking confirmed successfully' });
+        res.status(200).json({ message: 'Booking confirmed successfully', bookingID });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

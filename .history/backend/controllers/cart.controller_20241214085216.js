@@ -75,7 +75,7 @@ exports.confirmBooking = async (req, res) => {
             .input('customerID', sql.Int, customerID)
             .query('SELECT roomID FROM Cart WHERE customerID = @customerID');
         
-            //console.log('Cart Items:', cartItems.recordset);
+            console.log('Cart Items:', cartItems.recordset);
 
         if (cartItems.recordset.length === 0) {
             return res.status(400).json({ message: 'Cart is empty' });
@@ -87,11 +87,11 @@ exports.confirmBooking = async (req, res) => {
                 .input('roomID', sql.Int, item.roomID)
                 .query('SELECT price FROM Room WHERE roomID = @roomID');
             
-            //console.log(`Room ID: ${item.roomID}, Price: ${room.recordset[0]?.price}`);
+            console.log(`Room ID: ${item.roomID}, Price: ${room.recordset[0]?.price}`);
             totalPrice += room.recordset[0]?.price || 0;
         }
 
-        //console.log('Total Price:', totalPrice);
+        console.log('Total Price:', totalPrice);
 
 
 
@@ -116,7 +116,7 @@ exports.confirmBooking = async (req, res) => {
             `);
 
         const bookingID = result.recordset[0].bookingID;
-        //console.log('Booking ID:', bookingID);
+        console.log('Booking ID:', bookingID);
 
 
         // Chuyển trạng thái của các phòng trong giỏ hàng thành 'Occupied'

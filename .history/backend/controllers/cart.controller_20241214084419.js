@@ -68,6 +68,8 @@ exports.removeFromCart = async (req, res) => {
 exports.confirmBooking = async (req, res) => {
     const { customerID } = req.body; // Lấy customerID từ request body
     try {
+        console.log('CustomerID:', customerID);
+
         const pool = await db.poolPromise;
 
         // Lấy danh sách phòng từ giỏ hàng của customer
@@ -75,34 +77,11 @@ exports.confirmBooking = async (req, res) => {
             .input('customerID', sql.Int, customerID)
             .query('SELECT roomID FROM Cart WHERE customerID = @customerID');
         
-            //console.log('Cart Items:', cartItems.recordset);
-
         if (cartItems.recordset.length === 0) {
             return res.status(400).json({ message: 'Cart is empty' });
         }
         
-        let totalPrice = 0;
-        for (const item of cartItems.recordset) {
-            const room = await pool.request()
-                .input('roomID', sql.Int, item.roomID)
-                .query('SELECT price FROM Room WHERE roomID = @roomID');
-            
-            //console.log(`Room ID: ${item.roomID}, Price: ${room.recordset[0]?.price}`);
-            totalPrice += room.recordset[0]?.price || 0;
-        }
-
-        //console.log('Total Price:', totalPrice);
-
-
-
-
-
-
-
-
-
-
-
+        const totalPrice = cartItems.recordset.reduce((sum, item) => sum + item.price, 0);
 
         // Tạo booking mới
         const result = await pool.request()
@@ -116,7 +95,7 @@ exports.confirmBooking = async (req, res) => {
             `);
 
         const bookingID = result.recordset[0].bookingID;
-        //console.log('Booking ID:', bookingID);
+
 
 
         // Chuyển trạng thái của các phòng trong giỏ hàng thành 'Occupied'

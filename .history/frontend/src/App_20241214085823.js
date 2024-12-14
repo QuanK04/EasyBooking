@@ -4,7 +4,7 @@ import Login from './components/Login';
 import HotelList from './components/HotelList';
 import RoomList from './components/RoomList';
 import CartPage from './components/CartPage';
-import ReviewApp from './components/ReviewApp';
+import Review_App from './components/Review_App';
 import Footer from './components/Footer';
 import BookingsPage from './components/BookingsPage';
 import './App.css';
@@ -18,9 +18,8 @@ const App = () => {
         <div className="nav__logo">Easy Booking</div>
         <ul className="nav__links">
           <li className="link"><a href="/">Home</a></li>
-          <li className="link"><a href="/hotels">Hotels</a></li>
+          <li className="link"><a href="/hotels">Hotel</a></li>
           <li className="link"><a href="/cart">Cart</a></li>
-          <li className="link"><a href="/bookings">Bookings</a></li>
         </ul>
       </nav>
 
@@ -57,7 +56,7 @@ const App = () => {
                 </div>
               </header>
               <div>
-                <ReviewApp/>
+                <Review_App/>
               </div>
               <div>
                 <Footer/>

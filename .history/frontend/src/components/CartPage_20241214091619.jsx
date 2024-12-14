@@ -23,9 +23,7 @@ const CartPage = () => {
 
         fetchCartItems();
     }, [customerID]);
-    const calculateTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price, 0);
-    };
+
     // Xóa phòng khỏi giỏ hàng
     const handleRemoveFromCart = async (cartID) => {
         try {
@@ -43,10 +41,6 @@ const CartPage = () => {
         }
     };
     const handleConfirmBooking = async () => {
-        const confirmation = window.confirm(
-            `Total price: $${calculateTotalPrice()}. Are you sure you want to confirm the booking?`
-        );
-        if (!confirmation) return;
         try {
             const response = await fetch(`http://localhost:5000/api/carts/confirm`, {
                 method: 'POST',
@@ -93,12 +87,9 @@ const CartPage = () => {
                             </li>
                         ))}
                     </ul>
-                    <div className="cart-total">
-                        <span>Total Price: <strong>${calculateTotalPrice()}</strong></span>
-                        <button onClick={handleConfirmBooking} className="confirm-btn">
-                            Confirm Booking
-                        </button>
-                    </div>
+                    <button onClick={handleConfirmBooking} className="confirm-btn">
+                        Confirm Booking
+                    </button>
                 </div>
             )}
         </div>

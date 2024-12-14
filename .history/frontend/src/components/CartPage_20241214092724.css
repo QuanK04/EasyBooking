@@ -1,0 +1,28 @@
+/* Tổng giá và nút Confirm */
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px 0;
+    border-top: 2px solid #ddd;
+}
+
+.cart-total span {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.confirm-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.confirm-btn:hover {
+    background-color: #0056b3;
+}

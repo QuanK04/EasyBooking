@@ -1,0 +1,96 @@
+/* RoomList.css */
+
+/* General Styles */
+.room-list-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.room-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.room-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+.room-info {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #555;
+}
+
+.room-status {
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.room-status.available {
+    color: #28a745;
+}
+
+.room-status.occupied {
+    color: #dc3545;
+}
+
+.add-to-cart-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #0056b3;
+}
+
+.add-to-cart-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Loading and Error States */
+.loading, .error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #dc3545;
+}
+
+.no-rooms {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #6c757d;
+}

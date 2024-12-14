@@ -4,7 +4,6 @@ import './RoomList.css';
 
 const RoomList = () => {
     const { hotelID } = useParams(); // Lấy hotelID từ URL
-    const navigate = useNavigate();
     const [rooms, setRooms] = useState([]); // Lưu danh sách phòng
     const [error, setError] = useState(null); // Lưu lỗi nếu có
     const [loading, setLoading] = useState(true); // Trạng thái loading
@@ -85,7 +84,7 @@ const RoomList = () => {
                 </div>
             )}
             <button
-            onClick={() => navigate('/hotels')}
+            onClick={() => navigate('/hotellist')}
             className="back-btn"
         >
             Back to Hotel List

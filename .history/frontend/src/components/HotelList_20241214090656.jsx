@@ -27,10 +27,7 @@ const HotelList = () => {
       <div className="popular__grid">
         {hotels.map((hotel,index)=>(
         <div className="popular__card" key={index}>
-        <img
-              src={hotelImages[hotel.hotelID] || 'assets/default-hotel.jpg'}
-              alt={`Hotel ${hotel.hotel_name}`}
-            />
+        <img src="assets/hotel-1.jpg" alt="popular hotel" />
         <div className="popular__content">
         <div className="popular__card__header">
           <h4>{hotel.hotel_name}</h4>

@@ -85,7 +85,7 @@ const RoomList = () => {
                 </div>
             )}
             <button
-            onClick={() => navigate('/hotels')}
+            onClick={() => navigate('/hotellist')}
             className="back-btn"
         >
             Back to Hotel List
